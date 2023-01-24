@@ -37,6 +37,7 @@ public class Main {
             int goals;
             int assists;
 
+            //maybe do this in a nested for loop. might be cleaner.
             System.out.println("Enter Players for " + leagueRoster[i].getName() + ".");
             do {
                 System.out.println("Enter name for player #" + (i+1) +":" );
