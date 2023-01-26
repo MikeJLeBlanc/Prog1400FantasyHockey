@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Scanner;
 import java.text.DecimalFormat;
 public class Main {
@@ -6,15 +7,17 @@ public class Main {
         Scanner input = new Scanner(System.in);
         DecimalFormat dec = new DecimalFormat("0.00");
 
-        // 2d array (assuming only 3 people are signing up for this league and 3 players per team.)
-        Team[][] leagueRoster = new Team[3][4];
+        // changed to 2 single arrays. will control with nested for loop at end.
+        Team[] leagueRoster = new Team[3];
+        Player[] teamRoster = new Player[9];
+
 
 
         // capture all user input for teams.
         System.out.println("FANTASY HOCKEY APPLICATION");
         System.out.println("TEAM ENTRY");
         System.out.println("=====================================");
-        for (int i = 0; i < leagueRoster.length; ++i) {
+        for (int i = 0; i < 3; ++i) {
             String teamName;
 
             do {
@@ -24,34 +27,61 @@ public class Main {
                     input.next();
                 }
                 teamName = input.nextLine();
-                leagueRoster[i][0] = new Team(teamName);
+                leagueRoster[i] = new Team(teamName);
             }
-            while (input == null || input.equals("") || teamName.length() > 3);
+            while (input == null || input.equals(""));
         }
 
-        // time for the players. name, goals and assists. Salary is randomly set when players are created.
+        // time for the players. name, goals and assists. they get added to the team roster
         System.out.println("PLAYER ENTRY");
         System.out.println("=====================================");
 
         String playerName;
+        int numGoals, numAssists;
 
-        for (int row = 0; row < leagueRoster.length; row++) {
-            System.out.println("Please enter the players for " + leagueRoster[row][0] + ".");
-            for (int col = 1; col < leagueRoster[0].length; col++) {
-                if (col == 0) {
-                    col++;
-                }
+        for (int teamNum = 0; teamNum < leagueRoster.length; teamNum++) {
+            System.out.println("Please enter the players for " + leagueRoster[teamNum].getName() + ".");
+            for (int playerNum = 0; playerNum < teamRoster.length; playerNum++) {
+
                 do {
-                    System.out.println("Enter name for player #" + (col) + ":");
+                    System.out.println("Enter name for player #" + (playerNum+1) + ":");
                     while (!input.hasNextLine()) {
                         System.out.println("Please enter a valid name!");
                         input.next();
                     }
                     playerName = input.nextLine();
                 }
-                while (input == null || input.equals("") || goals < 0 || assists < 0 || playerName.length > 3);
+                while (input == null || input.equals(""));
+                do {
+                    System.out.println("Enter the amount of goals for " + playerName + ":");
+                    intValidation();
+                    numGoals = input.nextInt();
+                    input.next();
+                }
+                while (input == null || input.equals(""));
+                do {
+                    System.out.println("Enter the amount of assists for " + playerName + ":");
+                    intValidation();
+                    numAssists = input.nextInt();
+                    input.next();
+                }
+                while (input == null || input.equals(""));
+
+                teamRoster[playerNum] = new Player(playerName, numGoals, numAssists);
             }
         }
         // output all data here. Learn some proper formatting, noob.
+    }
+
+    static void intValidation() {
+        Scanner input = new Scanner(System.in);
+
+        while (!input.hasNextInt()) {
+            System.out.println("Please enter a number!");
+            input.next();
+            if (input.nextInt() < 0)
+                System.out.println("Please enter a valid number (greater than or equal to 0)");
+            input.next();
+        }
     }
 }
