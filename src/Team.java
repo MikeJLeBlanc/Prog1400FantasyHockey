@@ -1,4 +1,4 @@
-public class Team {
+public class Team { // parent class
     private String name;
     private float budget = 0;
 
@@ -10,9 +10,8 @@ public class Team {
     private float randBudget(){
         int min = 0;
         int max = 100000;
-        float budget = (float)Math.floor(Math.random() * (max - min + 1) + min);
 
-        return budget;
+        return (float)Math.floor(Math.random() * (max - min + 1) + min);
     }
 
     protected float getBudget() {

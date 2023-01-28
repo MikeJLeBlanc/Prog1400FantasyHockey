@@ -1,6 +1,6 @@
 
 
-public class Player {
+public class Player{
 
     private String name;
     private int numGoals = 0, numAssists = 0;
