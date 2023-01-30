@@ -3,24 +3,24 @@
 public class Player{
 
     private String name;
-    private int numGoals = 0, numAssists = 0;
+    private int numGoals, numAssists;
 
     //CONSTRUCTOR
-    public Player(String name, int numGoals, int numAssists) {
+    protected Player(String name, int numGoals, int numAssists) {
         this.name = name;
         this.numGoals = numGoals;
         this.numAssists = numAssists;
     }
 
-    public String getName() {
-        return name;
+    protected void playerStats(Player player) {
+        System.out.println(name + ": G - " + numGoals + "   A - " + numAssists + "   Total - " + (numGoals+numAssists));
     }
 
-    public int getNumGoals() {
+    protected int getNumGoals() {
         return numGoals;
     }
 
-    public int getNumAssists() {
+    protected int getNumAssists() {
         return numAssists;
     }
 

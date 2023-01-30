@@ -30,9 +30,9 @@ public class Main {
                 if (teamName.length() < 3) {
                     System.out.println("Please enter a Team name that is more than 3 characters");
                     teamName = input.nextLine();
-
                 }
             }
+
             while (teamName == null || teamName.equals("")); // input validation to get the user to actually write correct values. these can have numbers.
             leagueRoster.add(new Team(teamName));
         }
@@ -43,12 +43,14 @@ public class Main {
         System.out.println("PLAYER ENTRY");
         System.out.println("=====================================");
 
-        String playerName;
-        int numGoals, numAssists;
-
-        for (Team team : leagueRoster) {
-            System.out.println("Please enter the players for " + team.getName() + ".");
+        for (int i = 0; i < 3; i++) {
+            System.out.println("");
+            System.out.println("Please enter the players for " + leagueRoster.get(i).getName() + ".");
             for (int j = 0; j < 3; j++) {
+
+                String playerName;
+                int numGoals, numAssists;
+
                 do {
                     System.out.println("Enter name for player #" + (j + 1) + ":");
                     while (!input.hasNextLine()) {
@@ -58,6 +60,7 @@ public class Main {
                     playerName = input.nextLine();
                 }
                 while (playerName == null || playerName.length() < 3);
+
                 do {
                     System.out.println("Enter the amount of goals for " + playerName + ":");
                     while (!input.hasNextInt()) {
@@ -66,7 +69,8 @@ public class Main {
                     }
                     numGoals = input.nextInt();
                 }
-                while (numGoals <= 0);
+                while (numGoals < 0);
+
                 do {
                     System.out.println("Enter the amount of assists for " + playerName + ":");
                     while (!input.hasNextInt()) {
@@ -76,36 +80,84 @@ public class Main {
                     numAssists = input.nextInt();
                     input.nextLine();
                 }
-                while (numAssists <= 0);
+                while (numAssists < 0);
 
+                if (i == 0) teamOne.add(new Player(playerName, numGoals, numAssists));
+                if (i == 1) teamTwo.add(new Player(playerName, numGoals, numAssists));
+                if (i == 2) teamThree.add(new Player(playerName, numGoals, numAssists));
 
-                if (teamOne.size() < 3) {
-                    teamOne.add(new Player(playerName, numGoals, numAssists));
-
-                } if (teamTwo.size() == 3) {
-                    teamTwo.add(new Player(playerName, numGoals, numAssists));
-
-                } else {
-                    teamThree.add(new Player(playerName, numGoals, numAssists));
-                }
             }
         }
         //endregion
-        for (int i = 0; i < 3; i++) {
-            System.out.println(leagueRoster.get(i).getName() + " has these players:");
-            for (int j = 0; j < 3; j++){
-                if (j < 3) {
-                    System.out.println(teamOne.get(j));
 
-                } if (j < 3) {
-                    System.out.println(teamTwo.get(j));
+        //region setting up for data output section.
 
-                } else {
-                    System.out.println(teamThree.get(j));
+        int team1Goals = 0, team1Assists = 0, team2Goals = 0, team2Assists = 0, team3Goals = 0, team3Assists = 0;
+        int team1Total = 0, team2Total = 0, team3Total = 0;
 
-                }
-            }
+        for (Player player : teamOne) {
+            team1Goals = team1Goals + player.getNumGoals();
+            team1Assists = team1Assists + player.getNumAssists();
+            team1Total = team1Goals + team1Assists;
         }
-        // output all data here. Learn some proper formatting, noob.
+
+        for (Player player : teamTwo) {
+            team2Goals = team2Goals + player.getNumGoals();
+            team2Assists = team2Assists + player.getNumAssists();
+            team2Total = team2Goals + team2Assists;
+        }
+
+        for (Player player : teamThree) {
+            team3Goals = team3Goals + player.getNumGoals();
+            team3Assists = team3Assists + player.getNumAssists();
+            team3Total = team3Goals + team3Assists;
+        }
+
+        //endregion
+
+        //region Data output
+        System.out.println("");
+        System.out.println("STAT REPORTS FOR ALL TEAMS");
+        System.out.println("=====================================");
+
+        //team1
+        System.out.println(leagueRoster.get(0).getName() + ": G - " + team1Goals + "   A - " + team1Assists + "   Total - " + team1Total + "   Budget - $" + dec.format(leagueRoster.get(0).getBudget()));
+        System.out.println(leagueRoster.get(0).teamRating(team1Total));
+        System.out.println("");
+
+        //team2
+        System.out.println(leagueRoster.get(1).getName() + ": G - " + team2Goals + "   A - " + team2Assists + "   Total - " + team2Total + "   Budget - $" + dec.format(leagueRoster.get(1).getBudget()));
+        System.out.println(leagueRoster.get(1).teamRating(team2Total));
+        System.out.println("");
+
+        //team3
+        System.out.println(leagueRoster.get(2).getName() + ": G - " + team3Goals + "   A - " + team3Assists + "   Total - " + team3Total + "   Budget - $" + dec.format(leagueRoster.get(2).getBudget()));
+        System.out.println(leagueRoster.get(2).teamRating(team3Total));
+
+        System.out.println("");
+        System.out.println("Stats per player:");
+        System.out.println("=====================================");
+
+        //team1
+        System.out.println(leagueRoster.get(0).getName());
+        for (Player currentPlayer : teamOne){
+            currentPlayer.playerStats(currentPlayer);
+        }
+        System.out.println("");
+
+        //team2
+        System.out.println(leagueRoster.get(1).getName());
+        for (Player currentPlayer : teamTwo){
+            currentPlayer.playerStats(currentPlayer);
+        }
+        System.out.println("");
+
+        //team3
+        System.out.println(leagueRoster.get(2).getName());
+        for (Player currentPlayer : teamThree){
+            currentPlayer.playerStats(currentPlayer);
+        }
+
+        //endregion
     }
 }
